@@ -4,18 +4,22 @@ import imageData from '../../imgdata/img data'
 
 const RightBar = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
   React.useEffect(() => {
     const status = localStorage.getItem('isLoggedIn');
     if (status === 'true') {
       setIsLoggedIn(true);
     }
   }, []);
+
   const shuffledImages = useMemo(() => {
     return [...imageData].sort(() => Math.random() - 0.5);
   }, []);
 
   return (
     <div className="w-full h-screen overflow-y-auto p-4 relative">
+      
+    {/* Notifications removed */}
 
       <div className="flex items-center gap-4 mb-6 sticky top-0 bg-white z-10 py-2">
         <div className="flex-1 bg-gray-100 rounded-full flex items-center px-4 py-2">

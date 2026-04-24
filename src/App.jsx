@@ -1,10 +1,10 @@
 import React from 'react'
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import LeftBar from './component/LeftBar'
 import Login from './component/Login'
 import Signup from './component/Signup'
 import RightBar from './component/RightBar'
-
+// Explore and YourBoard removed
 
 const Layout = ({ children }) => {
   return (
@@ -21,15 +21,11 @@ const App = () => {
   return (
     <Routes>
       <Route path='/' element={<Layout><RightBar /></Layout>} />
-
+  {/* Explore and YourBoard routes removed */}
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
-      
-      {/* Redirect any other route to home */}
-      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }
-
 
 export default App

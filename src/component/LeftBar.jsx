@@ -43,8 +43,9 @@ const LeftBar = () => {
           label="Home"
           className="h-[49px] w-[49px] p-[1px] object-contain rounded-2xl"
         />
+        {/* Explore and YourBoard removed */}
+        {/* Notifications removed */}
       </div>
-
 
       <NavItem
         src="https://i.pinimg.com/736x/e5/d1/b0/e5d1b01c1447bea5b4cdc2344a315a93.jpg"
