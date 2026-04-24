@@ -43,8 +43,21 @@ const LeftBar = () => {
           label="Home"
           className="h-[49px] w-[49px] p-[1px] object-contain rounded-2xl"
         />
-        {/* Explore and YourBoard removed */}
-        {/* Notifications removed */}
+        <NavItem
+          to="/your-board"
+          src="https://i.pinimg.com/736x/fd/4d/3e/fd4d3ec06e0390cab9f385f944acb1c5.jpg"
+          alt="Your Board"
+          label="Your Board"
+          className="h-[49px] w-[49px] p-[8px] object-contain rounded-full"
+        />
+        <NavItem
+          to="/notifications"
+          src="https://i.pinimg.com/1200x/db/53/f4/db53f45df0246d78d4bc64c7bb750036.jpg"
+          alt="Notifications"
+          label="Notifications"
+          hasNotification={true}
+          className="h-[39px] w-[39px] p-[4px] object-contain rounded-full"
+        />
       </div>
 
       <NavItem
