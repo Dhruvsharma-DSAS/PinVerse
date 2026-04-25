@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-
 const Settings = ({ onClose, isDarkMode, setIsDarkMode }) => {
   const [user, setUser] = useState(null)
   const [formData, setFormData] = useState({
@@ -7,7 +6,6 @@ const Settings = ({ onClose, isDarkMode, setIsDarkMode }) => {
     username: ''
   })
   const [message, setMessage] = useState('')
-
   useEffect(() => {
     const savedUser = localStorage.getItem('user')
     if (savedUser) {
@@ -19,11 +17,9 @@ const Settings = ({ onClose, isDarkMode, setIsDarkMode }) => {
       })
     }
   }, [])
-
   const handleUpdate = (e) => {
     e.preventDefault()
     if (!user) return
-
     const updatedUser = { ...user, ...formData }
     localStorage.setItem('user', JSON.stringify(updatedUser))
     
@@ -35,16 +31,14 @@ const Settings = ({ onClose, isDarkMode, setIsDarkMode }) => {
     setMessage('Profile updated successfully!')
     setTimeout(() => setMessage(''), 3000)
   }
-
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-start">
-      {/* Backdrop */}
+       
       <div 
         className="absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity" 
         onClick={onClose}
       />
-
-      {/* Drawer */}
+       
       <div className={`relative z-10 ml-[106px] h-[90vh] max-w-xl w-full ${isDarkMode ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-white border-zinc-200 text-black'} rounded-[40px] shadow-2xl overflow-hidden animate-in fade-in slide-in-from-left-8 duration-500 border`}>
         <div className="p-8 sm:p-10 h-full overflow-y-auto custom-scrollbar">
             <div className="flex justify-between items-center mb-10">
@@ -56,13 +50,11 @@ const Settings = ({ onClose, isDarkMode, setIsDarkMode }) => {
                     ×
                 </button>
             </div>
-
             {message && (
                 <div className="mb-8 p-5 bg-green-500/10 text-green-500 rounded-3xl font-bold text-center border border-green-200/20">
                     {message}
                 </div>
             )}
-
             <section className="mb-12">
                 <h2 className="text-xs font-black text-zinc-400 uppercase tracking-widest mb-6">Public Profile</h2>
                 <form onSubmit={handleUpdate} className="space-y-6">
@@ -94,7 +86,6 @@ const Settings = ({ onClose, isDarkMode, setIsDarkMode }) => {
                     </button>
                 </form>
             </section>
-
             <section className="mb-12 border-t border-zinc-100/10 pt-10">
                 <h2 className="text-xs font-black text-zinc-400 uppercase tracking-widest mb-6">Theme Settings</h2>
                 <div className={`flex items-center justify-between p-6 ${isDarkMode ? 'bg-zinc-800/50' : 'bg-zinc-50'} rounded-[32px] border ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
@@ -110,7 +101,6 @@ const Settings = ({ onClose, isDarkMode, setIsDarkMode }) => {
                     </button>
                 </div>
             </section>
-
             <section className="border-t border-zinc-100/10 pt-10 pb-4">
                 <div className="flex flex-col gap-3">
                     <div className="flex justify-between items-center text-[13px]">
@@ -130,5 +120,4 @@ const Settings = ({ onClose, isDarkMode, setIsDarkMode }) => {
     </div>
   )
 }
-
 export default Settings
