@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ProfileMenu from './ProfileMenu'
+
+// Import all category data
 import vegetarian from '../../imgdata/Vegetarian recipes to make on repeat'
 import chic from '../../imgdata/Chic decor ideas inspired by animal prints'
 import secondhand from '../../imgdata/Secondhand glow ups'
 import reading from '../../imgdata/Reading aesthetic'
 import cute from '../../imgdata/How to draw cute animals'
 import good from '../../imgdata/Good things are happening'
+
 const categoryData = {
   'vegetarian-recipes': { title: 'Vegetarian recipes to make on repeat', data: vegetarian },
   'chic-decor': { title: 'Chic decor ideas inspired by animal prints', data: chic },
@@ -15,16 +18,19 @@ const categoryData = {
   'cute-animals': { title: 'How to draw cute animals', data: cute },
   'good-things': { title: 'Good things are happening', data: good }
 }
+
 const ExploreCategory = ({ onPinClick }) => {
   const { categoryId } = useParams()
   const category = categoryData[categoryId]
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
   useEffect(() => {
     const status = localStorage.getItem('isLoggedIn')
     if (status === 'true') {
       setIsLoggedIn(true)
     }
   }, [])
+
   const handleSave = (e, src) => {
     e.preventDefault();
     e.stopPropagation();
@@ -37,6 +43,7 @@ const ExploreCategory = ({ onPinClick }) => {
         alert('Already saved!');
     }
   };
+
   if (!category) {
     return (
       <div className="flex flex-col items-center justify-center h-screen theme-bg theme-text">
@@ -45,9 +52,12 @@ const ExploreCategory = ({ onPinClick }) => {
       </div>
     )
   }
+
   const images = category.data || []
+
   return (
     <div className="w-full h-screen overflow-y-auto theme-bg p-8 transition-colors duration-300">
+      {/* Header */}
       <div className="flex items-center justify-between mb-12 sticky top-0 theme-header z-20 py-4 transition-colors">
         <div className="flex items-center gap-6">
             <Link to="/explore" className="p-2 hover:theme-input rounded-full transition-colors theme-text">
@@ -68,6 +78,8 @@ const ExploreCategory = ({ onPinClick }) => {
             )}
         </div>
       </div>
+
+      {/* Grid */}
       <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 space-y-4 pb-20">
         {images.map((src, index) => (
           <div 
@@ -100,4 +112,5 @@ const ExploreCategory = ({ onPinClick }) => {
     </div>
   )
 }
+
 export default ExploreCategory

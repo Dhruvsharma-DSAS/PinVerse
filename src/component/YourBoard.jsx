@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+
 const YourBoard = ({ onPinClick }) => {
   const [user, setUser] = useState(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -8,6 +9,7 @@ const YourBoard = ({ onPinClick }) => {
   const [likedPins, setLikedPins] = useState([])
   const [following, setFollowing] = useState([])
   const [viewingAllPins, setViewingAllPins] = useState(false)
+
   useEffect(() => {
     const status = localStorage.getItem('isLoggedIn')
     const savedUser = localStorage.getItem('user')
@@ -15,6 +17,7 @@ const YourBoard = ({ onPinClick }) => {
       setIsLoggedIn(true)
       setUser(JSON.parse(savedUser))
     }
+
     const saved = JSON.parse(localStorage.getItem('savedPins') || '[]')
     const liked = JSON.parse(localStorage.getItem('likedPins') || '[]')
     const followList = JSON.parse(localStorage.getItem('following') || '[]')
@@ -23,6 +26,7 @@ const YourBoard = ({ onPinClick }) => {
     setLikedPins(liked)
     setFollowing(followList)
   }, [])
+
   const handleUnsave = (e, src) => {
     e.preventDefault();
     e.stopPropagation();
@@ -30,6 +34,7 @@ const YourBoard = ({ onPinClick }) => {
     setSavedPins(updated);
     localStorage.setItem('savedPins', JSON.stringify(updated));
   };
+
   const handleUnlike = (e, src) => {
     e.preventDefault();
     e.stopPropagation();
@@ -37,11 +42,13 @@ const YourBoard = ({ onPinClick }) => {
     setLikedPins(updated);
     localStorage.setItem('likedPins', JSON.stringify(updated));
   };
+
   const handleUnfollow = (username) => {
     const updated = following.filter(f => f !== username);
     setFollowing(updated);
     localStorage.setItem('following', JSON.stringify(updated));
   };
+
   if (!isLoggedIn) {
     return (
       <div className="w-full h-screen flex flex-col items-center justify-center theme-bg p-8 transition-colors duration-300">
@@ -56,7 +63,9 @@ const YourBoard = ({ onPinClick }) => {
       </div>
     )
   }
+
   const firstLetter = user?.username ? user.username.charAt(0).toUpperCase() : '?';
+
   return (
     <div className="w-full h-screen overflow-y-auto theme-bg p-8 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
@@ -72,6 +81,7 @@ const YourBoard = ({ onPinClick }) => {
                     </button>
                     <h1 className="text-3xl font-black theme-text">All Pins</h1>
                 </div>
+
                 <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
                     {savedPins.map((src, index) => (
                         <div 
@@ -96,7 +106,7 @@ const YourBoard = ({ onPinClick }) => {
             </div>
         ) : (
             <>
-                 
+                {/* Profile */}
                 <div className="flex flex-col items-center mb-12">
                     <div className="w-28 h-28 rounded-full bg-[#E60023] flex items-center justify-center text-4xl font-black text-white mb-4 border-2 theme-border shadow-xl">
                         {firstLetter}
@@ -104,7 +114,8 @@ const YourBoard = ({ onPinClick }) => {
                     <h1 className="text-3xl font-bold tracking-tight theme-text transition-colors">{user?.username || 'Pinterest User'}</h1>
                     <p className="text-zinc-500 mt-1 font-medium text-sm">@{user?.username?.toLowerCase().replace(/\s+/g, '') || 'user'}</p>
                 </div>
-                 
+
+                {/* Tabs */}
                 <div className="flex justify-center gap-8 mb-12 border-b theme-border pb-2 transition-colors">
                     <button 
                         onClick={() => setActiveTab('saved')}
@@ -128,7 +139,8 @@ const YourBoard = ({ onPinClick }) => {
                         {activeTab === 'following' && <div className="absolute bottom-0 left-0 w-full h-[2px] theme-text bg-current rounded-full" />}
                     </button>
                 </div>
-                 
+
+                {/* Content */}
                 <div className="pb-32">
                     {activeTab === 'saved' && (
                         <div>
@@ -160,6 +172,7 @@ const YourBoard = ({ onPinClick }) => {
                             )}
                         </div>
                     )}
+
                     {activeTab === 'liked' && (
                         <div>
                             {likedPins.length > 0 ? (
@@ -189,6 +202,7 @@ const YourBoard = ({ onPinClick }) => {
                             )}
                         </div>
                     )}
+
                     {activeTab === 'following' && (
                         <div className="max-w-2xl mx-auto space-y-4">
                             {following.length > 0 ? (
@@ -225,4 +239,5 @@ const YourBoard = ({ onPinClick }) => {
     </div>
   )
 }
+
 export default YourBoard

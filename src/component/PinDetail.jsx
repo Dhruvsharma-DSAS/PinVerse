@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
@@ -7,18 +8,26 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     const status = localStorage.getItem('isLoggedIn');
     setIsLoggedIn(status === 'true');
     
+    // Load comments for this specific pin from localStorage
     const allComments = JSON.parse(localStorage.getItem('pinComments') || '{}');
     setComments(allComments[pin] || []);
+
+    // Load liked state
     const likedPins = JSON.parse(localStorage.getItem('likedPins') || '[]');
     setIsLiked(likedPins.includes(pin));
+
+    // Load following state for this specific creator (hardcoded 'Pinterest Creator' for now)
     const following = JSON.parse(localStorage.getItem('following') || '[]');
     setIsFollowing(following.includes('Pinterest Creator'));
   }, [pin]);
+
   if (!pin) return null;
+
   const handleInteraction = (callback) => {
     if (!isLoggedIn) {
       alert('Please log in to interact with Pins! 🚀');
@@ -27,6 +36,7 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
     }
     callback();
   };
+
   const toggleLike = () => {
     handleInteraction(() => {
         const likedPins = JSON.parse(localStorage.getItem('likedPins') || '[]');
@@ -40,6 +50,7 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
         setIsLiked(updated.includes(pin));
     });
   };
+
   const toggleFollow = () => {
     handleInteraction(() => {
         const following = JSON.parse(localStorage.getItem('following') || '[]');
@@ -54,6 +65,7 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
         setIsFollowing(updated.includes(creator));
     });
   };
+
   const handleCommentSubmit = () => {
     if (comment.trim()) {
         handleInteraction(() => {
@@ -69,8 +81,10 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
         });
     }
   };
+
   const user = JSON.parse(localStorage.getItem('user'));
   const firstLetter = user?.username ? user.username.charAt(0).toUpperCase() : 'P';
+
   return (
     <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 md:p-10 overflow-y-auto">
       <div 
@@ -80,6 +94,7 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
       
       <div className="relative w-full max-w-6xl bg-white dark:bg-zinc-900 rounded-[40px] overflow-hidden shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] flex flex-col md:flex-row min-h-[500px] max-h-[95vh]">
         
+        {/* Left Side: Image */}
         <div className="w-full md:w-[55%] bg-[#111111] flex items-center justify-center p-6">
           <img 
             src={pin} 
@@ -87,8 +102,11 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
             className="max-w-full max-h-full object-contain rounded-[32px] shadow-2xl"
           />
         </div>
+
+        {/* Right Side: Interactions */}
         <div className="w-full md:w-[45%] p-10 flex flex-col theme-bg relative">
           
+          {/* Header Actions */}
           <div className="flex items-center justify-between mb-10 pr-12">
             <div className="flex gap-4 items-center">
                 <button 
@@ -96,7 +114,7 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
                   className={`p-1.5 rounded-full transition-all hover:bg-gray-100 dark:hover:bg-zinc-800 ${isLiked ? 'scale-110' : ''}`}
                 >
                     <img 
-                      src="https:
+                      src="https://i.pinimg.com/736x/bb/79/0c/bb790cee64103b8323e2f79a5c47c3a1.jpg" 
                       className={`w-10 h-10 rounded-full object-cover transition-all ${isLiked ? 'ring-4 ring-red-500' : ''}`} 
                       alt="Like" 
                     />
@@ -110,12 +128,15 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
               Save
             </button>
           </div>
+
           <button 
             onClick={onClose}
             className="absolute top-8 right-8 w-12 h-12 flex items-center justify-center rounded-full hover:theme-input transition-colors theme-text z-50"
           >
             <span className="text-3xl font-light">✕</span>
           </button>
+
+          {/* Content */}
           <div className="flex-1 overflow-y-auto custom-scrollbar pr-4">
             <h1 className="text-3xl font-black theme-text mb-6 tracking-tight">Saved from Pinterest</h1>
             
@@ -134,6 +155,7 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
                     {isFollowing ? 'Following' : 'Follow'}
                 </button>
             </div>
+
             <div className="space-y-6">
                 <h3 className="font-black theme-text text-xl">Comments</h3>
                 
@@ -156,6 +178,8 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
                 )}
             </div>
           </div>
+
+          {/* Comment Input */}
           <div className="pt-8 border-t theme-border mt-6">
             <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-zinc-200 dark:bg-zinc-700 flex-shrink-0 flex items-center justify-center font-bold theme-text text-sm">
@@ -176,7 +200,7 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
                         className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition-all"
                     >
                         <img 
-                          src="https:
+                          src="https://i.pinimg.com/736x/29/b8/61/29b861b00a58f6c07c80d34520d0490f.jpg" 
                           className="w-6 h-6 rounded-full object-cover" 
                           alt="Send" 
                         />
@@ -189,4 +213,5 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
     </div>
   );
 };
+
 export default PinDetail;
