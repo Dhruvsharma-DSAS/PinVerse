@@ -13,7 +13,7 @@ import Settings from './component/Settings'
 const Layout = ({ children, onSettingsClick, isDarkMode }) => {
   return (
     <div className={`flex h-screen ${isDarkMode ? 'bg-[#111111] text-white' : 'bg-white text-black'} transition-colors duration-300 relative`}>
-      <LeftBar onSettingsClick={onSettingsClick} />
+      <LeftBar onSettingsClick={onSettingsClick} isDarkMode={isDarkMode} />
       <div className='flex-1 h-screen overflow-hidden'>
         {children}
       </div>

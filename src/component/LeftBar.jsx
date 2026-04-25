@@ -25,7 +25,7 @@ const NavItem = ({ to, src, alt, label, className = "", hasNotification = false 
   return to ? <Link to={to} className="w-full flex justify-center">{content}</Link> : content
 }
 
-const LeftBar = ({ onSettingsClick }) => {
+const LeftBar = ({ onSettingsClick, isDarkMode }) => {
   return (
     <div className="grid h-screen w-[96px] grid-rows-[auto_1fr_auto] justify-items-center border-r theme-border theme-bg py-6 transition-colors duration-300">
       <NavItem
@@ -38,10 +38,10 @@ const LeftBar = ({ onSettingsClick }) => {
       <div className="grid content-start justify-items-center gap-9 pt-10 w-full">
         <NavItem
           to="/"
-          src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png"
+          src={isDarkMode ? "https://cdn-icons-png.flaticon.com/512/1946/1946436.png" : "https://cdn-icons-png.flaticon.com/512/1946/1946488.png"}
           alt="Home"
           label="Home"
-          className="h-[28px] w-[28px] object-contain dark:invert"
+          className="h-[28px] w-[28px] object-contain dark:invert transition-all duration-300"
         />
         <NavItem
           to="/explore"
