@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 
 const Notifications = () => {
-  const [activeTab, setActiveTab] = useState('updates')
-  
   const [updates, setUpdates] = useState([
     {
       id: 1,
@@ -42,25 +40,17 @@ const Notifications = () => {
       image: 'https://i.pinimg.com/736x/95/40/b1/9540b1b5148dcb258bcfb7b55d705373.jpg',
       time: '2d',
       read: true
-    }
-  ])
-
-  const [messages, setMessages] = useState([
-    {
-      id: 101,
-      sender: 'Emma Wilson',
-      lastMessage: 'Hey, I loved that decor idea!',
-      avatar: 'https://i.pravatar.cc/150?u=emma',
-      time: '1d',
-      unread: true
     },
     {
-      id: 102,
-      sender: 'Pinterest Support',
-      lastMessage: 'Welcome to your new creative space.',
-      avatar: 'https://i.pinimg.com/736x/6e/ad/91/6ead912ceb43c93b8e189d1eb802845f.jpg',
+      id: 5,
+      type: 'recommendation',
+      text: 'Because you saved "Glow ups", check these out',
+      images: [
+        'https://i.pinimg.com/736x/63/ee/89/63ee89f3e840c57193b8f92fe60ba85d.jpg',
+        'https://i.pinimg.com/736x/96/52/92/965292c83e93599aa12f93a0b42a1029.jpg'
+      ],
       time: '3d',
-      unread: false
+      read: true
     }
   ])
 
@@ -69,101 +59,59 @@ const Notifications = () => {
   }
 
   return (
-    <div className="w-full h-screen overflow-y-auto bg-white p-6 sm:p-10 scroll-smooth">
+    <div className="w-full h-screen overflow-y-auto bg-white p-6 sm:p-10">
       <div className="max-w-2xl mx-auto">
         
-        {/* Navigation Tabs */}
-        <div className="flex items-center justify-center gap-10 mb-12 relative border-b border-zinc-100">
-          <button 
-            onClick={() => setActiveTab('updates')}
-            className={`pb-4 text-lg font-bold transition-all relative ${activeTab === 'updates' ? 'text-black' : 'text-zinc-400 hover:text-zinc-600'}`}
-          >
-            Updates
-            {activeTab === 'updates' && <div className="absolute bottom-[-1px] left-0 w-full h-[3px] bg-black rounded-full" />}
-          </button>
-          <button 
-            onClick={() => setActiveTab('messages')}
-            className={`pb-4 text-lg font-bold transition-all relative ${activeTab === 'messages' ? 'text-black' : 'text-zinc-400 hover:text-zinc-600'}`}
-          >
-            Messages
-            {activeTab === 'messages' && <div className="absolute bottom-[-1px] left-0 w-full h-[3px] bg-black rounded-full" />}
-          </button>
+        <div className="mb-12 text-center">
+            <h1 className="text-2xl font-bold border-b-2 border-black inline-block pb-1 px-4">Updates</h1>
         </div>
 
-        {activeTab === 'updates' ? (
-          <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
             {updates.length > 0 ? (
-              updates.map((notif) => (
+                updates.map((notif) => (
                 <div 
-                  key={notif.id} 
-                  onClick={() => markAsRead(notif.id)}
-                  className="flex items-center gap-4 p-4 hover:bg-zinc-50 rounded-[24px] cursor-pointer transition-all group relative"
+                    key={notif.id} 
+                    onClick={() => markAsRead(notif.id)}
+                    className="flex items-center gap-4 p-4 hover:bg-zinc-50 rounded-[24px] cursor-pointer transition-all group relative"
                 >
-                  {!notif.read && <div className="absolute left-1 w-2 h-2 bg-blue-600 rounded-full" />}
-                  
-                  <div className="flex-shrink-0">
+                    {!notif.read && <div className="absolute left-1 w-2 h-2 bg-blue-600 rounded-full" />}
+                    
+                    <div className="flex-shrink-0">
                     {notif.images ? (
-                      <div className="flex -space-x-6">
+                        <div className="flex -space-x-6">
                         {notif.images.slice(0, 2).map((img, i) => (
-                          <div key={i} className="w-16 h-16 rounded-[20px] border-[3px] border-white overflow-hidden shadow-sm">
+                            <div key={i} className="w-16 h-16 rounded-[20px] border-[3px] border-white overflow-hidden shadow-sm">
                             <img src={img} alt="" className="w-full h-full object-cover" />
-                          </div>
+                            </div>
                         ))}
-                      </div>
+                        </div>
                     ) : (
-                      <div className="w-16 h-16 rounded-[20px] overflow-hidden shadow-sm">
+                        <div className="w-16 h-16 rounded-[20px] overflow-hidden shadow-sm">
                         <img src={notif.image} alt="" className="w-full h-full object-cover" />
-                      </div>
+                        </div>
                     )}
-                  </div>
+                    </div>
 
-                  <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0">
                     <p className={`text-[15px] leading-snug ${notif.read ? 'text-zinc-500' : 'text-black font-semibold'} line-clamp-2`}>
-                      {notif.text}
+                        {notif.text}
                     </p>
                     <p className="text-[13px] text-zinc-400 mt-1 font-medium">{notif.time}</p>
-                  </div>
+                    </div>
 
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button className="w-8 h-8 rounded-full hover:bg-zinc-200 flex items-center justify-center">
-                      <span className="text-zinc-400 font-bold">...</span>
-                    </button>
-                  </div>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button className="w-8 h-8 rounded-full hover:bg-zinc-200 flex items-center justify-center">
+                            <span className="text-zinc-400 font-bold">...</span>
+                        </button>
+                    </div>
                 </div>
-              ))
+                ))
             ) : (
-              <p className="text-center text-zinc-400 py-20">No new updates right now.</p>
+                <div className="py-20 text-center">
+                    <p className="text-xl font-bold text-zinc-300">You're all caught up!</p>
+                </div>
             )}
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2">
-            {messages.map((msg) => (
-              <div key={msg.id} className="flex items-center gap-4 p-4 hover:bg-zinc-50 rounded-[24px] cursor-pointer transition-all group">
-                <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
-                  <img src={msg.avatar} alt={msg.sender} className="w-full h-full object-cover" />
-                </div>
-                
-                <div className="flex-1 min-w-0">
-                  <h4 className={`text-[16px] ${msg.unread ? 'font-bold' : 'font-semibold'}`}>{msg.sender}</h4>
-                  <p className={`text-[14px] truncate ${msg.unread ? 'text-black font-medium' : 'text-zinc-500'}`}>
-                    {msg.lastMessage}
-                  </p>
-                </div>
-
-                <div className="text-right">
-                    <p className="text-[12px] text-zinc-400 font-medium">{msg.time}</p>
-                    {msg.unread && <div className="w-2.5 h-2.5 bg-red-600 rounded-full ml-auto mt-1" />}
-                </div>
-              </div>
-            ))}
-            
-            <div className="mt-8 px-4">
-              <button className="w-full bg-zinc-100 hover:bg-zinc-200 text-black font-bold py-3 rounded-full transition-colors active:scale-[0.98]">
-                New Message
-              </button>
-            </div>
-          </div>
-        )}
+        </div>
 
         <div className="mt-20 text-center border-t border-zinc-100 pt-10 pb-20">
           <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[2px]">Pinterest Community</p>
