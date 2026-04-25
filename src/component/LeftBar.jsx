@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import settingIcon from '../assets/icons/Setting icon .png'
 import notificationIcon from '../assets/icons/notification icon.png'
-import pinterestLogo from '../assets/icons/Pinterest.png'
+import PinVerseLogo from '../assets/icons/PinVerse.png'
 
 const NavItem = ({ to, src, alt, label, className = "", hasNotification = false }) => {
   const content = (
@@ -33,8 +33,8 @@ const LeftBar = ({ onSettingsClick, isDarkMode }) => {
     <div className="grid h-screen w-[96px] grid-rows-[auto_1fr_auto] justify-items-center border-r theme-border theme-bg py-6 transition-colors duration-300">
       <NavItem
         to="/"
-        src={pinterestLogo}
-        alt="Pinterest logo"
+        src={PinVerseLogo}
+        alt="PinVerse logo"
         className="h-12 w-11 rounded-full object-contain"
       />
 

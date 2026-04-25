@@ -111,7 +111,7 @@ const YourBoard = ({ onPinClick }) => {
                     <div className="w-28 h-28 rounded-full bg-[#E60023] flex items-center justify-center text-4xl font-black text-white mb-4 border-2 theme-border shadow-xl">
                         {firstLetter}
                     </div>
-                    <h1 className="text-3xl font-bold tracking-tight theme-text transition-colors">{user?.username || 'Pinterest User'}</h1>
+                    <h1 className="text-3xl font-bold tracking-tight theme-text transition-colors">{user?.username || 'PinVerse User'}</h1>
                     <p className="text-zinc-500 mt-1 font-medium text-sm">@{user?.username?.toLowerCase().replace(/\s+/g, '') || 'user'}</p>
                 </div>
 

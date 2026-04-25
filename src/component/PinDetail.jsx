@@ -21,9 +21,9 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
     const likedPins = JSON.parse(localStorage.getItem('likedPins') || '[]');
     setIsLiked(likedPins.includes(pin));
 
-    // Load following state for this specific creator (hardcoded 'Pinterest Creator' for now)
+    // Load following state for this specific creator (hardcoded 'PinVerse Creator' for now)
     const following = JSON.parse(localStorage.getItem('following') || '[]');
-    setIsFollowing(following.includes('Pinterest Creator'));
+    setIsFollowing(following.includes('PinVerse Creator'));
   }, [pin]);
 
   if (!pin) return null;
@@ -54,7 +54,7 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
   const toggleFollow = () => {
     handleInteraction(() => {
         const following = JSON.parse(localStorage.getItem('following') || '[]');
-        const creator = 'Pinterest Creator';
+        const creator = 'PinVerse Creator';
         let updated;
         if (following.includes(creator)) {
             updated = following.filter(f => f !== creator);
@@ -138,14 +138,14 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
 
           {/* Content */}
           <div className="flex-1 overflow-y-auto custom-scrollbar pr-4">
-            <h1 className="text-3xl font-black theme-text mb-6 tracking-tight">Saved from Pinterest</h1>
+            <h1 className="text-3xl font-black theme-text mb-6 tracking-tight">Saved from PinVerse</h1>
             
             <div className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center font-black text-white text-xl shadow-lg">
                     C
                 </div>
                 <div>
-                    <p className="font-black theme-text text-lg">Pinterest Creator</p>
+                    <p className="font-black theme-text text-lg">PinVerse Creator</p>
                     <p className="text-sm text-zinc-500 font-bold">12.5k followers</p>
                 </div>
                 <button 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import images from '../../imgdata/img data.js';
-import pinterestLogo from '../assets/icons/Pinterest.png';
+import PinVerseLogo from '../assets/icons/PinVerse.png';
 
 const Login = () => {
   const [identifier, setIdentifier] = useState(''); 
@@ -54,10 +54,10 @@ const Login = () => {
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2">
             <div className="h-10 w-10 flex items-center justify-center rounded-full bg-white shadow-md overflow-hidden">
-                <img src={pinterestLogo} alt="Logo" className="w-8 h-8 object-contain" />
+                <img src={PinVerseLogo} alt="Logo" className="w-8 h-8 object-contain" />
             </div>
             <span className="text-xl font-bold tracking-tight text-[#e60023]">
-              Pinterest
+              PinVerse
             </span>
           </Link>
         </div>
@@ -68,7 +68,7 @@ const Login = () => {
           <div className="w-full overflow-hidden rounded-[32px] bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all hover:shadow-[0_25px_60px_rgba(0,0,0,0.2)] md:p-10">
             <div className="flex flex-col items-center">
               <div className="mb-6 h-12 w-12 flex items-center justify-center rounded-full bg-white shadow-inner overflow-hidden">
-                <img src={pinterestLogo} alt="Logo" className="w-10 h-10 object-contain" />
+                <img src={PinVerseLogo} alt="Logo" className="w-10 h-10 object-contain" />
               </div>
               
               <h2 className="text-3xl font-bold tracking-tight text-[#111111]">
@@ -124,7 +124,7 @@ const Login = () => {
                 
                 <div className="border-t border-gray-100 pt-4">
                   <p className="text-sm text-gray-600">
-                    Not on Pinterest yet?{' '}
+                    Not on PinVerse yet?{' '}
                     <Link to="/signup" className="font-bold text-[#2787b3] hover:underline">
                       Sign Up
                     </Link>

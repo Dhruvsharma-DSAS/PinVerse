@@ -104,7 +104,7 @@ const ProfileMenu = () => {
                             onClick={handleAddAccount}
                             className={`w-full text-left px-4 py-2.5 font-bold text-black dark:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-xl transition-colors mt-1`}
                         >
-                            Add Pinterest account
+                            Add PinVerse account
                         </button>
                         <button 
                             onClick={handleLogout}
