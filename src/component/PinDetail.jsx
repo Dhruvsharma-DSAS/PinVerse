@@ -16,6 +16,14 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
     // Load comments for this specific pin from localStorage
     const allComments = JSON.parse(localStorage.getItem('pinComments') || '{}');
     setComments(allComments[pin] || []);
+
+    // Load liked state
+    const likedPins = JSON.parse(localStorage.getItem('likedPins') || '[]');
+    setIsLiked(likedPins.includes(pin));
+
+    // Load following state for this specific creator (hardcoded 'Pinterest Creator' for now)
+    const following = JSON.parse(localStorage.getItem('following') || '[]');
+    setIsFollowing(following.includes('Pinterest Creator'));
   }, [pin]);
 
   if (!pin) return null;
@@ -29,6 +37,35 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
     callback();
   };
 
+  const toggleLike = () => {
+    handleInteraction(() => {
+        const likedPins = JSON.parse(localStorage.getItem('likedPins') || '[]');
+        let updated;
+        if (likedPins.includes(pin)) {
+            updated = likedPins.filter(p => p !== pin);
+        } else {
+            updated = [...likedPins, pin];
+        }
+        localStorage.setItem('likedPins', JSON.stringify(updated));
+        setIsLiked(updated.includes(pin));
+    });
+  };
+
+  const toggleFollow = () => {
+    handleInteraction(() => {
+        const following = JSON.parse(localStorage.getItem('following') || '[]');
+        const creator = 'Pinterest Creator';
+        let updated;
+        if (following.includes(creator)) {
+            updated = following.filter(f => f !== creator);
+        } else {
+            updated = [...following, creator];
+        }
+        localStorage.setItem('following', JSON.stringify(updated));
+        setIsFollowing(updated.includes(creator));
+    });
+  };
+
   const handleCommentSubmit = () => {
     if (comment.trim()) {
         handleInteraction(() => {
@@ -36,7 +73,6 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
             const updatedComments = [...comments, newComment];
             setComments(updatedComments);
             
-            // Persist comments globally
             const allComments = JSON.parse(localStorage.getItem('pinComments') || '{}');
             allComments[pin] = updatedComments;
             localStorage.setItem('pinComments', JSON.stringify(allComments));
@@ -74,12 +110,12 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
           <div className="flex items-center justify-between mb-10 pr-12">
             <div className="flex gap-4 items-center">
                 <button 
-                  onClick={() => handleInteraction(() => setIsLiked(!isLiked))}
+                  onClick={toggleLike}
                   className={`p-1.5 rounded-full transition-all hover:bg-gray-100 dark:hover:bg-zinc-800 ${isLiked ? 'scale-110' : ''}`}
                 >
                     <img 
                       src="https://i.pinimg.com/736x/bb/79/0c/bb790cee64103b8323e2f79a5c47c3a1.jpg" 
-                      className="w-10 h-10 rounded-full object-cover" 
+                      className={`w-10 h-10 rounded-full object-cover transition-all ${isLiked ? 'ring-4 ring-red-500' : ''}`} 
                       alt="Like" 
                     />
                 </button>
@@ -106,14 +142,14 @@ const PinDetail = ({ pin, onClose, onSave, isDarkMode }) => {
             
             <div className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center font-black text-white text-xl shadow-lg">
-                    {firstLetter}
+                    C
                 </div>
                 <div>
                     <p className="font-black theme-text text-lg">Pinterest Creator</p>
                     <p className="text-sm text-zinc-500 font-bold">12.5k followers</p>
                 </div>
                 <button 
-                    onClick={() => handleInteraction(() => setIsFollowing(!isFollowing))}
+                    onClick={toggleFollow}
                     className={`ml-auto px-6 py-3 rounded-full font-black text-sm transition-all shadow-md ${isFollowing ? 'theme-input theme-text' : 'bg-zinc-100 text-black hover:bg-zinc-200'}`}
                 >
                     {isFollowing ? 'Following' : 'Follow'}
