@@ -1,33 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f3f4f6;
+  --bg-app: #ffffff;
+  --bg-header: rgba(255, 255, 255, 0.8);
+  --bg-input: #f3f4f6;
+  --bg-card: #ffffff;
   --text-primary: #111111;
   --text-secondary: #71717a;
-  --border-primary: #e5e7eb;
+  --border-color: #e5e7eb;
 }
 
 .dark {
-  --bg-primary: #111111;
-  --bg-secondary: #18181b;
+  --bg-app: #111111;
+  --bg-header: rgba(17, 17, 17, 0.8);
+  --bg-input: #1f2937;
+  --bg-card: #18181b;
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
-  --border-primary: #27272a;
+  --border-color: #27272a;
 }
 
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--bg-app) !important;
+  color: var(--text-primary) !important;
+  transition: all 0.3s ease;
   margin: 0;
-  padding: 0;
 }
 
-/* Force light/dark styles for main containers */
-.main-layout {
-  background-color: var(--bg-primary);
-}
+/* Force theme on all main components using variables */
+.theme-bg { background-color: var(--bg-app) !important; }
+.theme-text { color: var(--text-primary) !important; }
+.theme-border { border-color: var(--border-color) !important; }
+.theme-header { background-color: var(--bg-header) !important; backdrop-filter: blur(12px); }
+.theme-input { background-color: var(--bg-input) !important; }
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
@@ -42,9 +47,3 @@ body {
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #3f3f46;
 }
-
-/* Utility overrides for consistency */
-.dark .bg-white { background-color: #111111 !important; }
-.dark .text-black { color: #ffffff !important; }
-.dark .border-zinc-200 { border-color: #27272a !important; }
-.dark .bg-gray-100 { background-color: #18181b !important; }

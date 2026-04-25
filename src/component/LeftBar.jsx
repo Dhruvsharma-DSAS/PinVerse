@@ -5,13 +5,13 @@ const NavItem = ({ to, src, alt, label, className = "", hasNotification = false 
   const content = (
     <div className="relative group flex items-center justify-center w-full">
       <img
-        className={`${className} cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all`}
+        className={`${className} cursor-pointer hover:theme-input transition-all`}
         src={src}
         alt={alt}
       />
      
       {hasNotification && (
-        <div className="absolute top-1 right-5 w-2 h-2 bg-[#e60023] rounded-full border-2 border-white"></div>
+        <div className="absolute top-1 right-5 w-2 h-2 bg-[#e60023] rounded-full border-2 theme-border"></div>
       )}
       {label && (
         <div className="absolute left-full ml-4 px-3 py-1.5 bg-black text-white text-[11px] font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none whitespace-nowrap z-50 shadow-xl translate-x-[-10px] group-hover:translate-x-0">
@@ -27,7 +27,7 @@ const NavItem = ({ to, src, alt, label, className = "", hasNotification = false 
 
 const LeftBar = ({ onSettingsClick }) => {
   return (
-    <div className="grid h-screen w-[96px] grid-rows-[auto_1fr_auto] justify-items-center border-r border-zinc-200 bg-white dark:bg-[#111111] dark:border-zinc-800 py-6 transition-colors duration-300">
+    <div className="grid h-screen w-[96px] grid-rows-[auto_1fr_auto] justify-items-center border-r theme-border theme-bg py-6 transition-colors duration-300">
       <NavItem
         to="/"
         src="https://i.pinimg.com/736x/6e/ad/91/6ead912ceb43c93b8e189d1eb802845f.jpg"
