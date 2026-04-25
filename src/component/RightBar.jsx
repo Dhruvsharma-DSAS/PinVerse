@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import imageData from '../../imgdata/img data'
+import ProfileMenu from './ProfileMenu'
 
 const RightBar = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [showNotification, setShowNotification] = React.useState(false);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const status = localStorage.getItem('isLoggedIn');
@@ -12,10 +14,8 @@ const RightBar = () => {
       setIsLoggedIn(true);
     }
 
-    // Show a small notification after 1 second
     const timer = setTimeout(() => {
         setShowNotification(true);
-        // Hide it after 4 seconds
         setTimeout(() => setShowNotification(false), 4000);
     }, 1000);
 
@@ -29,7 +29,6 @@ const RightBar = () => {
   return (
     <div className="w-full h-screen overflow-y-auto p-4 relative">
       
-      {/* Toast Notification */}
       {showNotification && (
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] animate-bounce">
             <div className="bg-black text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 border border-zinc-700">
@@ -50,16 +49,9 @@ const RightBar = () => {
             className="bg-transparent border-none outline-none w-full text-sm"
           />
         </div>
-        <div className="flex gap-4 font-semibold text-sm">
-         
+        <div className="flex gap-4 font-semibold text-sm items-center">
           {isLoggedIn ? (
-            <div className="w-10 h-10 rounded-full bg-zinc-200 overflow-hidden flex items-center justify-center cursor-pointer border border-zinc-300">
-               <img 
-                src="https://img.freepik.com/free-photo/beautiful-shot-natural-scenery-autumn_181624-25934.jpg?semt=ais_hybrid&w=740&q=80" 
-                alt="Profile" 
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <ProfileMenu />
           ) : (
             <Link
               to="/login"
@@ -85,9 +77,7 @@ const RightBar = () => {
               </div>
               <div className="flex justify-between items-center text-white">
                 <div className="flex items-center gap-1 bg-white/80 rounded-full px-2 py-1 text-black text-xs font-semibold">
-       
                 </div>
-              
               </div>
             </div>
           </div>

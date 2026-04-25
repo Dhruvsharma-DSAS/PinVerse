@@ -1,42 +1,68 @@
 import React from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import ProfileMenu from './ProfileMenu'
+
+// Import data for cover images
+import vegetarianData from '../../imgdata/Vegetarian recipes to make on repeat'
+import chicData from '../../imgdata/Chic decor ideas inspired by animal prints'
+import secondhandData from '../../imgdata/Secondhand glow ups'
+import readingData from '../../imgdata/Reading aesthetic'
+import cuteData from '../../imgdata/How to draw cute animals'
+import goodData from '../../imgdata/Good things are happening'
 
 const Explore = () => {
+  const navigate = useNavigate()
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+
+  React.useEffect(() => {
+    const status = localStorage.getItem('isLoggedIn')
+    if (status === 'true') {
+      setIsLoggedIn(true)
+    }
+  }, [])
+
   const exploreItems = [
     {
       id: 1,
+      slug: 'vegetarian-recipes',
       title: 'Vegetarian recipes to make on repeat',
       subtitle: 'On the menu',
-      image: 'https://i.pinimg.com/736x/63/ee/89/63ee89f3e840c57193b8f92fe60ba85d.jpg' 
+      image: vegetarianData[0]
     },
     {
       id: 2,
+      slug: 'chic-decor',
       title: 'Chic decor ideas inspired by animal prints',
       subtitle: 'Statement pieces',
-      image: 'https://i.pinimg.com/1200x/f5/a7/d6/f5a7d628c7e1a3c0a1da92b22cd733dc.jpg'
+      image: chicData[0]
     },
     {
       id: 3,
+      slug: 'secondhand-glow-ups',
       title: 'Secondhand glow ups',
       subtitle: 'Thrift it',
-      image: 'https://i.pinimg.com/736x/72/9a/13/729a1331da87f1fe02932578d2e12117.jpg'
+      image: secondhandData[0]
     },
     {
       id: 4,
+      slug: 'reading-aesthetic',
       title: 'Reading aesthetic',
       subtitle: 'For the love of books',
-      image: 'https://i.pinimg.com/736x/a9/a6/f3/a9a6f3c554d9fc2114217cdcdffb65f0.jpg'
+      image: readingData[0]
     },
     {
       id: 5,
+      slug: 'cute-animals',
       title: 'How to draw cute animals',
       subtitle: 'Aww-dorable art',
-      image: 'https://i.pinimg.com/736x/95/40/b1/9540b1b5148dcb258bcfb7b55d705373.jpg'
+      image: cuteData[0]
     },
     {
       id: 6,
+      slug: 'good-things',
       title: 'Good things are happening',
       subtitle: 'All about hopecore',
-      image: 'https://i.pinimg.com/736x/96/52/92/965292c83e93599aa12f93a0b42a1029.jpg'
+      image: goodData[0]
     }
   ]
 
@@ -52,12 +78,17 @@ const Explore = () => {
             className="bg-transparent border-none outline-none w-full text-lg"
           />
         </div>
-        <div className="w-12 h-12 rounded-full bg-zinc-200 overflow-hidden flex items-center justify-center cursor-pointer hover:bg-zinc-300 transition-colors">
-            <img 
-                src="https://img.freepik.com/free-photo/beautiful-shot-natural-scenery-autumn_181624-25934.jpg?semt=ais_hybrid&w=740&q=80" 
-                alt="Profile" 
-                className="w-full h-full object-cover"
-            />
+        <div className="flex items-center gap-4">
+          {isLoggedIn ? (
+            <ProfileMenu />
+          ) : (
+            <Link
+              to="/login"
+              className="rounded-full bg-[#e60023] px-5 py-2.5 text-white font-bold hover:bg-[#ad081b] transition-colors"
+            >
+              Log in
+            </Link>
+          )}
         </div>
       </div>
 
@@ -69,6 +100,7 @@ const Explore = () => {
         {exploreItems.map((item) => (
           <div 
             key={item.id} 
+            onClick={() => navigate(`/explore/${item.slug}`)}
             className="relative h-[550px] rounded-[40px] overflow-hidden cursor-pointer group shadow-lg hover:shadow-2xl transition-all duration-500"
           >
             <img 

@@ -7,6 +7,7 @@ import RightBar from './component/RightBar'
 import Explore from './component/Explore'
 import Notifications from './component/Notifications'
 import YourBoard from './component/YourBoard'
+import ExploreCategory from './component/ExploreCategory'
 
 const Layout = ({ children }) => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
     <Routes>
       <Route path='/' element={<Layout><RightBar /></Layout>} />
       <Route path='/explore' element={<Layout><Explore /></Layout>} />
+      <Route path='/explore/:categoryId' element={<Layout><ExploreCategory /></Layout>} />
       <Route path='/notifications' element={<Layout><Notifications /></Layout>} />
       <Route path='/your-board' element={<Layout><YourBoard /></Layout>} />
       <Route path='/login' element={<Login />} />

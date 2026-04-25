@@ -16,17 +16,19 @@ const Login = () => {
     e.preventDefault();
     setError('');
 
-    const savedUser = localStorage.getItem('user');
-    if (!savedUser) {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    if (users.length === 0) {
       setError('No accounts found. Time to create one!');
       return;
     }
 
-    const { email, username, password: savedPassword } = JSON.parse(savedUser);
-
-    // Check if identifier matches email OR username
-    if ((identifier === email || identifier === username) && password === savedPassword) {
+    const matchedUser = users.find(u => 
+      (identifier === u.email || identifier === u.username) && password === u.password
+    );
+    
+    if (matchedUser) {
       localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('user', JSON.stringify(matchedUser)); // Store current user
       alert('Success! Getting your boards ready...');
       navigate('/');
     } else {

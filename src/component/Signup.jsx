@@ -31,8 +31,17 @@ const Signup = () => {
       return;
     }
 
-    // Save everything to localStorage
-    localStorage.setItem('user', JSON.stringify(formData));
+    // Save everything to localStorage in a users array
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    
+    // Check if user already exists
+    if (users.find(u => u.email === email || u.username === username)) {
+      setError('This email or username is already taken!');
+      return;
+    }
+
+    users.push(formData);
+    localStorage.setItem('users', JSON.stringify(users));
 
     alert(`Welcome aboard, ${name}! Your demo account is ready.`);
     navigate('/login');
