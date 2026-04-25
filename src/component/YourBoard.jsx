@@ -6,6 +6,7 @@ const YourBoard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [activeTab, setActiveTab] = useState('saved')
   const [savedPins, setSavedPins] = useState([])
+  const [viewingAllPins, setViewingAllPins] = useState(false)
 
   useEffect(() => {
     const status = localStorage.getItem('isLoggedIn')
@@ -18,6 +19,14 @@ const YourBoard = () => {
     const saved = JSON.parse(localStorage.getItem('savedPins') || '[]')
     setSavedPins(saved)
   }, [])
+
+  const handleUnsave = (e, src) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const updated = savedPins.filter(pin => pin !== src);
+    setSavedPins(updated);
+    localStorage.setItem('savedPins', JSON.stringify(updated));
+  };
 
   if (!isLoggedIn) {
     return (
@@ -39,67 +48,105 @@ const YourBoard = () => {
   return (
     <div className="w-full h-screen overflow-y-auto theme-bg p-8 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
-        {/* Profile */}
-        <div className="flex flex-col items-center mb-12">
-          <div className="w-28 h-28 rounded-full bg-[#E60023] flex items-center justify-center text-4xl font-black text-white mb-4 border-2 theme-border shadow-xl">
-             {firstLetter}
-          </div>
-          <h1 className="text-3xl font-bold tracking-tight theme-text transition-colors">{user?.username || 'Pinterest User'}</h1>
-          <p className="text-zinc-500 mt-1 font-medium text-sm">@{user?.username?.toLowerCase().replace(/\s+/g, '') || 'user'}</p>
-        </div>
-
-        {/* Tabs */}
-        <div className="flex justify-center gap-8 mb-12 border-b theme-border pb-2 transition-colors">
-            <button 
-                onClick={() => setActiveTab('created')}
-                className={`pb-4 text-sm font-bold transition-all relative ${activeTab === 'created' ? 'theme-text' : 'text-zinc-400'}`}
-            >
-                Created
-                {activeTab === 'created' && <div className="absolute bottom-0 left-0 w-full h-[2px] theme-text bg-current rounded-full" />}
-            </button>
-            <button 
-                onClick={() => setActiveTab('saved')}
-                className={`pb-4 text-sm font-bold transition-all relative ${activeTab === 'saved' ? 'theme-text' : 'text-zinc-400'}`}
-            >
-                Saved
-                {activeTab === 'saved' && <div className="absolute bottom-0 left-0 w-full h-[2px] theme-text bg-current rounded-full" />}
-            </button>
-        </div>
-
-        {/* Content */}
-        {activeTab === 'saved' ? (
+        
+        {viewingAllPins ? (
             <div className="pb-32">
-                {savedPins.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                        <div className="cursor-pointer group">
-                            <div className="h-56 rounded-[24px] overflow-hidden theme-input mb-4 shadow-sm group-hover:shadow-xl transition-all duration-300 relative border theme-border">
-                                <div className="grid grid-cols-2 h-full gap-[2px]">
-                                    {savedPins.slice(0, 4).map((src, i) => (
-                                        <img key={i} src={src} className="w-full h-full object-cover" alt="Saved" />
-                                    ))}
-                                    {savedPins.length < 4 && <div className="bg-zinc-100 dark:bg-zinc-800" />}
+                <div className="flex items-center gap-6 mb-12 sticky top-0 theme-header z-20 py-4">
+                    <button 
+                        onClick={() => setViewingAllPins(false)}
+                        className="p-3 hover:theme-input rounded-full transition-colors theme-text"
+                    >
+                        <span className="text-2xl">←</span>
+                    </button>
+                    <h1 className="text-3xl font-black theme-text">All Pins</h1>
+                </div>
+
+                <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+                    {savedPins.map((src, index) => (
+                        <div key={index} className="break-inside-avoid rounded-2xl overflow-hidden cursor-pointer group relative shadow-md hover:shadow-xl transition-all duration-300">
+                            <img src={src} alt="Saved" className="w-full h-auto object-cover" />
+                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3 text-white">
+                                <div className="flex justify-end">
+                                    <button 
+                                        onClick={(e) => handleUnsave(e, src)}
+                                        className="bg-zinc-100 text-black px-4 py-2 rounded-full font-bold text-xs hover:bg-white transition-colors"
+                                    >
+                                        Remove
+                                    </button>
                                 </div>
                             </div>
-                            <div className="px-2">
-                                <h3 className="font-bold text-lg theme-text">All Pins</h3>
-                                <p className="text-xs text-zinc-500 font-medium">{savedPins.length} Pins</p>
-                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <div className="text-center py-20">
-                        <p className="text-zinc-500 mb-4">Nothing saved yet! Go explore some ideas.</p>
-                        <Link to="/" className="text-[#e60023] font-bold hover:underline">Start Exploring</Link>
-                    </div>
-                )}
+                    ))}
+                </div>
             </div>
         ) : (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-                <p className="text-sm text-zinc-500 mb-6">You haven't created any Pins yet.</p>
-                <button className="bg-[#e60023] text-white px-8 py-2.5 rounded-full font-bold hover:bg-[#ad081b] transition-all shadow-lg text-sm">
-                    Create
-                </button>
-            </div>
+            <>
+                {/* Profile */}
+                <div className="flex flex-col items-center mb-12">
+                    <div className="w-28 h-28 rounded-full bg-[#E60023] flex items-center justify-center text-4xl font-black text-white mb-4 border-2 theme-border shadow-xl">
+                        {firstLetter}
+                    </div>
+                    <h1 className="text-3xl font-bold tracking-tight theme-text transition-colors">{user?.username || 'Pinterest User'}</h1>
+                    <p className="text-zinc-500 mt-1 font-medium text-sm">@{user?.username?.toLowerCase().replace(/\s+/g, '') || 'user'}</p>
+                </div>
+
+                {/* Tabs */}
+                <div className="flex justify-center gap-8 mb-12 border-b theme-border pb-2 transition-colors">
+                    <button 
+                        onClick={() => setActiveTab('created')}
+                        className={`pb-4 text-sm font-bold transition-all relative ${activeTab === 'created' ? 'theme-text' : 'text-zinc-400'}`}
+                    >
+                        Created
+                        {activeTab === 'created' && <div className="absolute bottom-0 left-0 w-full h-[2px] theme-text bg-current rounded-full" />}
+                    </button>
+                    <button 
+                        onClick={() => setActiveTab('saved')}
+                        className={`pb-4 text-sm font-bold transition-all relative ${activeTab === 'saved' ? 'theme-text' : 'text-zinc-400'}`}
+                    >
+                        Saved
+                        {activeTab === 'saved' && <div className="absolute bottom-0 left-0 w-full h-[2px] theme-text bg-current rounded-full" />}
+                    </button>
+                </div>
+
+                {/* Content */}
+                {activeTab === 'saved' ? (
+                    <div className="pb-32">
+                        {savedPins.length > 0 ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                                <div 
+                                    onClick={() => setViewingAllPins(true)}
+                                    className="cursor-pointer group"
+                                >
+                                    <div className="h-56 rounded-[24px] overflow-hidden theme-input mb-4 shadow-sm group-hover:shadow-xl transition-all duration-300 relative border theme-border">
+                                        <div className="grid grid-cols-2 h-full gap-[2px]">
+                                            {savedPins.slice(0, 4).map((src, i) => (
+                                                <img key={i} src={src} className="w-full h-full object-cover" alt="Saved" />
+                                            ))}
+                                            {savedPins.length < 4 && <div className="bg-zinc-100 dark:bg-zinc-800" />}
+                                        </div>
+                                    </div>
+                                    <div className="px-2">
+                                        <h3 className="font-bold text-lg theme-text">All Pins</h3>
+                                        <p className="text-xs text-zinc-500 font-medium">{savedPins.length} Pins</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="text-center py-20">
+                                <p className="text-zinc-500 mb-4">Nothing saved yet! Go explore some ideas.</p>
+                                <Link to="/" className="text-[#e60023] font-bold hover:underline">Start Exploring</Link>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className="flex flex-col items-center justify-center py-20 text-center">
+                        <p className="text-sm text-zinc-500 mb-6">You haven't created any Pins yet.</p>
+                        <button className="bg-[#e60023] text-white px-8 py-2.5 rounded-full font-bold hover:bg-[#ad081b] transition-all shadow-lg text-sm">
+                            Create
+                        </button>
+                    </div>
+                )}
+            </>
         )}
       </div>
     </div>
