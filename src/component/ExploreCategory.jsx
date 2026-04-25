@@ -19,7 +19,7 @@ const categoryData = {
   'good-things': { title: 'Good things are happening', data: good }
 }
 
-const ExploreCategory = () => {
+const ExploreCategory = ({ onPinClick }) => {
   const { categoryId } = useParams()
   const category = categoryData[categoryId]
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -82,7 +82,11 @@ const ExploreCategory = () => {
       {/* Grid */}
       <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 space-y-4 pb-20">
         {images.map((src, index) => (
-          <div key={index} className="break-inside-avoid rounded-2xl overflow-hidden cursor-pointer group relative shadow-md hover:shadow-xl transition-all duration-300">
+          <div 
+            key={index} 
+            onClick={() => onPinClick(src)}
+            className="break-inside-avoid rounded-2xl overflow-hidden cursor-pointer group relative shadow-md hover:shadow-xl transition-all duration-300"
+          >
             <img 
               src={src} 
               alt={`${category.title} ${index}`} 

@@ -2,7 +2,7 @@
 
 :root {
   --bg-app: #ffffff;
-  --bg-header: rgba(255, 255, 255, 0.8);
+  --bg-header: transparent;
   --bg-input: #f3f4f6;
   --bg-card: #ffffff;
   --text-primary: #111111;
@@ -12,7 +12,7 @@
 
 .dark {
   --bg-app: #111111;
-  --bg-header: rgba(17, 17, 17, 0.8);
+  --bg-header: transparent;
   --bg-input: #1f2937;
   --bg-card: #18181b;
   --text-primary: #ffffff;
@@ -31,7 +31,7 @@ body {
 .theme-bg { background-color: var(--bg-app) !important; }
 .theme-text { color: var(--text-primary) !important; }
 .theme-border { border-color: var(--border-color) !important; }
-.theme-header { background-color: var(--bg-header) !important; backdrop-filter: blur(12px); }
+.theme-header { background-color: var(--bg-header) !important; }
 .theme-input { background-color: var(--bg-input) !important; }
 
 .custom-scrollbar::-webkit-scrollbar {

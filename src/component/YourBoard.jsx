@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-const YourBoard = () => {
+const YourBoard = ({ onPinClick }) => {
   const [user, setUser] = useState(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [activeTab, setActiveTab] = useState('saved')
@@ -63,7 +63,11 @@ const YourBoard = () => {
 
                 <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
                     {savedPins.map((src, index) => (
-                        <div key={index} className="break-inside-avoid rounded-2xl overflow-hidden cursor-pointer group relative shadow-md hover:shadow-xl transition-all duration-300">
+                        <div 
+                          key={index} 
+                          onClick={() => onPinClick(src)}
+                          className="break-inside-avoid rounded-2xl overflow-hidden cursor-pointer group relative shadow-md hover:shadow-xl transition-all duration-300"
+                        >
                             <img src={src} alt="Saved" className="w-full h-auto object-cover" />
                             <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3 text-white">
                                 <div className="flex justify-end">

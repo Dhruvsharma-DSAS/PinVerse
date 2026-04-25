@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import imageData from '../../imgdata/img data'
 import ProfileMenu from './ProfileMenu'
 
-const RightBar = () => {
+const RightBar = ({ onPinClick }) => {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [showNotification, setShowNotification] = React.useState(false);
 
@@ -76,10 +76,13 @@ const RightBar = () => {
         </div>
       </div>
 
-      {/* Grid */}
       <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 space-y-4 pb-20">
         {shuffledImages.map((src, index) => (
-          <div key={index} className="break-inside-avoid rounded-2xl overflow-hidden cursor-pointer group relative shadow-sm hover:shadow-xl transition-all duration-300">
+          <div 
+            key={index} 
+            onClick={() => onPinClick(src)}
+            className="break-inside-avoid rounded-2xl overflow-hidden cursor-pointer group relative shadow-sm hover:shadow-xl transition-all duration-300"
+          >
             <img 
               src={src} 
               alt={`Pin ${index}`} 

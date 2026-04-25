@@ -9,6 +9,7 @@ import Notifications from './component/Notifications'
 import YourBoard from './component/YourBoard'
 import ExploreCategory from './component/ExploreCategory'
 import Settings from './component/Settings'
+import PinDetail from './component/PinDetail'
 
 const Layout = ({ children, onSettingsClick, isDarkMode }) => {
   return (
@@ -23,6 +24,7 @@ const Layout = ({ children, onSettingsClick, isDarkMode }) => {
 
 const App = () => {
   const [showSettings, setShowSettings] = useState(false)
+  const [selectedPin, setSelectedPin] = useState(null)
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem('theme') === 'dark'
   })
@@ -41,14 +43,27 @@ const App = () => {
 
   const toggleSettings = () => setShowSettings(!showSettings)
 
+  const handleGlobalSave = (e, src) => {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
+    const saved = JSON.parse(localStorage.getItem('savedPins') || '[]');
+    if (!saved.includes(src)) {
+        saved.push(src);
+        localStorage.setItem('savedPins', JSON.stringify(saved));
+        alert('Saved to your board!');
+    } else {
+        alert('Already saved!');
+    }
+  };
+
   return (
     <>
       <Routes>
-        <Route path='/' element={<Layout onSettingsClick={toggleSettings} isDarkMode={isDarkMode}><RightBar /></Layout>} />
+        <Route path='/' element={<Layout onSettingsClick={toggleSettings} isDarkMode={isDarkMode}><RightBar onPinClick={setSelectedPin} /></Layout>} />
         <Route path='/explore' element={<Layout onSettingsClick={toggleSettings} isDarkMode={isDarkMode}><Explore /></Layout>} />
-        <Route path='/explore/:categoryId' element={<Layout onSettingsClick={toggleSettings} isDarkMode={isDarkMode}><ExploreCategory /></Layout>} />
+        <Route path='/explore/:categoryId' element={<Layout onSettingsClick={toggleSettings} isDarkMode={isDarkMode}><ExploreCategory onPinClick={setSelectedPin} /></Layout>} />
         <Route path='/notifications' element={<Layout onSettingsClick={toggleSettings} isDarkMode={isDarkMode}><Notifications /></Layout>} />
-        <Route path='/your-board' element={<Layout onSettingsClick={toggleSettings} isDarkMode={isDarkMode}><YourBoard /></Layout>} />
+        <Route path='/your-board' element={<Layout onSettingsClick={toggleSettings} isDarkMode={isDarkMode}><YourBoard onPinClick={setSelectedPin} /></Layout>} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
       </Routes>
@@ -58,6 +73,15 @@ const App = () => {
           onClose={() => setShowSettings(false)} 
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
+        />
+      )}
+
+      {selectedPin && (
+        <PinDetail 
+          pin={selectedPin} 
+          onClose={() => setSelectedPin(null)} 
+          onSave={handleGlobalSave}
+          isDarkMode={isDarkMode}
         />
       )}
     </>
